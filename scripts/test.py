@@ -1,5 +1,5 @@
-from decorators import timer
-from decorators import timer2
+from .myDecorators import timer
+from .myDecorators import timer2
 import time
 
 
