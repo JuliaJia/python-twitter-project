@@ -5,6 +5,6 @@ list2 = [i ** 2 for i in range(10)]
 
 print(list2)
 
-dict1 = {ID:values for ID,values in zip(list1,list2)}
+dict2 = {ID:values for ID,values in zip(list1,list2)}
 
-print(dict1)
+print(dict2)
