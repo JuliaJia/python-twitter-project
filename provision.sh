@@ -2,19 +2,19 @@
 
 echo 'Start!'
 
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.10 2
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 2
 
-cd /vagrant
+cd /vagrant/python_projects/Twitter
 
 sudo apt-get update
 sudo apt-get install tree
 
 # 安装配置mysql8
-if ! [ -e /vagrant/mysql-apt-config_0.8.15-1_all.deb ]; then
-	wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb
+if ! [ -e /vagrant/mysql-apt-config_0.8.22-1_all.deb ]; then
+	wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
 fi
 
-sudo dpkg -i mysql-apt-config_0.8.15-1_all.deb
+sudo dpkg -i mysql-apt-config_0.8.22-1_all.deb
 sudo DEBIAN_FRONTEND=noninteractivate apt-get install -y mysql-server
 sudo apt-get install -y libmysqlclient-dev
 
@@ -30,6 +30,7 @@ fi
 # python -m pip install --upgrade pip
 # 换源完美解决
 # 安装pip所需依赖
+pip install testresources
 pip install --upgrade setuptools -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install --ignore-installed wrapt -i https://pypi.tuna.tsinghua.edu.cn/simple
 # 安装pip最新版
