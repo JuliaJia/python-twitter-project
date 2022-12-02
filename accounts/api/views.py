@@ -65,7 +65,7 @@ class AccountViewSet(viewsets.ViewSet):
     def login_status(self,request):
         data = {'has_logged_in': request.user.is_authenticated}
         if request.user.is_authenticated:
-            data['user'] = UserSerializer(request.user).data
+            data['user'] = UserSerializer(request.user,context={'request': request}).data
         return Response(data)
 
     @action(methods=['POST'],detail=False)
