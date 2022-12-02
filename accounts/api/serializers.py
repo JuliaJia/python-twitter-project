@@ -3,7 +3,7 @@ from django.contrib.auth.models import User,Group
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username','email')
+        fields = ('url','username','email')
 
 
 class SignupSerializer(serializers.ModelSerializer):
