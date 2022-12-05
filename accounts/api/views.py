@@ -19,9 +19,15 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 class AccountViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     serializer_class = SignupSerializer
+    @action(methods=["GET"],detail=False)
+    def login_status(self,request):
+        data = {'has_logged_in': request.user.is_authenticated}
+        if request.user.is_authenticated:
+            data['user'] = UserSerializer(request.user,context={'request': request}).data
+        return Response(data)
     @action(methods=['POST'],detail=False)
     def signup(self,request):
-        serializer = SignupSerializer(data=request.data)
+        serializer = SignupSerializer(data=request.data,context={'request': request})
         if not serializer.is_valid():
             return Response({
                 "success": False,
@@ -33,12 +39,12 @@ class AccountViewSet(viewsets.ViewSet):
         django_login(request,user)
         return Response({
             'success': True,
-            'user': UserSerializer(user).data,
+            'user': UserSerializer(user,context={'request': request}).data,
         }, status=201)
 
     @action(methods=["POST"],detail=False)
     def login(self,request):
-        serializer = LoginSerializer(data=request.data)
+        serializer = LoginSerializer(data=request.data,context={'request': request})
         if not serializer.is_valid():
             return Response({
                 "success": False,
@@ -58,15 +64,10 @@ class AccountViewSet(viewsets.ViewSet):
         django_login(request,user)
         return Response({
             "success": True,
-            "user": UserSerializer(instance=user).data
+            "user": UserSerializer(instance=user,context={'request': request}).data
         })
 
-    @action(methods=["GET"],detail=False)
-    def login_status(self,request):
-        data = {'has_logged_in': request.user.is_authenticated}
-        if request.user.is_authenticated:
-            data['user'] = UserSerializer(request.user,context={'request': request}).data
-        return Response(data)
+
 
     @action(methods=['POST'],detail=False)
     def logout(self,request):
