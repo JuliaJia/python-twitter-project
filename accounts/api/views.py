@@ -19,13 +19,14 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 class AccountViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny,)
     serializer_class = SignupSerializer
-    @action(methods=["GET"],detail=False)
+    @action(methods=['GET'],detail=False)
     def login_status(self,request):
-        data = {'has_logged_in': request.user.is_authenticated}
+        data = {'has_logged_in': request.user.is_authenticated,
+                'ip':request.META['REMOTE_ADDR']}
         if request.user.is_authenticated:
             data['user'] = UserSerializer(request.user,context={'request': request}).data
         return Response(data)
-    @action(methods=['POST'],detail=False)
+    @action(methods=['GET','POST'],detail=False)
     def signup(self,request):
         serializer = SignupSerializer(data=request.data,context={'request': request})
         if not serializer.is_valid():
@@ -42,7 +43,7 @@ class AccountViewSet(viewsets.ViewSet):
             'user': UserSerializer(user,context={'request': request}).data,
         }, status=201)
 
-    @action(methods=["POST"],detail=False)
+    @action(methods=['GET','POST'],detail=False)
     def login(self,request):
         serializer = LoginSerializer(data=request.data,context={'request': request})
         if not serializer.is_valid():
@@ -69,7 +70,7 @@ class AccountViewSet(viewsets.ViewSet):
 
 
 
-    @action(methods=['POST'],detail=False)
+    @action(methods=['GET','POST'],detail=False)
     def logout(self,request):
         django_logout(request)
         return Response({"success": True})
