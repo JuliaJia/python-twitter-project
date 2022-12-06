@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['127.0.0.1','192.168.56.12','localhost']
 
 INTERNAL_IPS = ['192.168.56.1']
 # Application definition
-
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'debug_toolbar',
     'accounts',
+    'tweets',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
